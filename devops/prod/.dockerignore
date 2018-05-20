@@ -1,0 +1,26 @@
+# ignore version control files:
+.git/
+.gitignore
+.github
+
+# ignore log and tmp folders
+log/*
+tmp/*
+
+# ignore devops config files
+devops/**/*
+.dockerignore
+
+# ignore test files:
+.rspec
+.rspec_parallel
+Guardfile
+spec/
+
+# ignore rubocop config files
+.rubocop.yml
+.rubocop.yml.backup
+.rubocop_todo.yml
+
+# ignore OS artifacts:
+**/.DS_Store

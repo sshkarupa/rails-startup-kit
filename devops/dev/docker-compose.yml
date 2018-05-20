@@ -1,0 +1,32 @@
+# only for development
+version: '3'
+
+volumes:
+  database:
+  bundle:
+
+services:
+  db:
+    env_file: .env
+    image: postgres:10-alpine
+    volumes:
+      - database:/var/lib/postgresql/data
+
+  web:
+    env_file: .env
+    build:
+      context: ../../
+      dockerfile: devops/dev/Dockerfile
+    image: budget:dev
+    volumes:
+      - ../../:/usr/src/budget
+      - bundle:/usr/local/bundle
+    command: bundle exec rails s -b 0.0.0.0
+    ports:
+      - 3000:3000
+    links:
+      - db:postgres
+    depends_on:
+      - db
+    stdin_open: true
+    tty: true

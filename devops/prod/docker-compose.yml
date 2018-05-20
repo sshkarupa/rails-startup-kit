@@ -1,0 +1,25 @@
+# production version
+# vim: set ft=yaml:
+version: '3'
+
+services:
+  postgres:
+    environment:
+      POSTGRES_USER: $DATABASE_USERNAME
+      POSTGRES_PASSWORD: $DATABASE_PASSWORD
+      POSTGRES_DB: $DATABASE_NAME
+    image: postgres:10-alpine
+    volumes:
+      - pgdata:/var/lib/postgresql/data
+
+  web:
+    env_file: .env
+    image: pixalar/my_app:prod
+    command: bundle exec puma -C config/puma.rb
+    ports:
+      - 3000:3000
+    depends_on:
+      - postgres
+
+volumes:
+  pgdata:
