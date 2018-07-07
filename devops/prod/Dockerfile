@@ -1,4 +1,4 @@
-FROM pixalar/my_app:base
+FROM sshkarupa/my_app:base
 
 ENV RAILS_ENV production
 

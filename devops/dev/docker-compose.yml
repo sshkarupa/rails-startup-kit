@@ -11,7 +11,7 @@ services:
     build: &build
       context: ../../
       dockerfile: devops/dev/Dockerfile
-    image: pixalar/my_app:dev
+    image: sshkarupa/my_app:dev
     volumes: &volumes
       - ../../:/usr/src/may_app
       - bundle:/usr/local/bundle
@@ -30,7 +30,7 @@ services:
   # NOTE: only if you're going to use webpacker gem
   webpacker:
     build: *build
-    image: pixalar/my_app:dev
+    image: sshkarupa/my_app:dev
     volumes: *volumes
     command: bin/webpack-dev-server
     ports:

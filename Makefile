@@ -1,5 +1,5 @@
 # Project variables
-ORG_NAME     ?= pixalar
+DOCKER_NAMESPACE ?= sshkarupa
 PROJECT_NAME ?= my_app
 
 # Filenames
@@ -11,8 +11,7 @@ RELEASE_IMAGE_FILE := devops/prod/Dockerfile
 # Useful shortcut
 DC := docker-compose -p $(PROJECT_NAME) -f $(DEV_COMPOSE_FILE)
 
-.PHONY: build bundle run rake rails console migrate up down install test rubocop \
-				attach start db owner
+.PHONY: build bundle run rake rails console migrate up down test rubocop attach start owner
 
 start: up attach
 
@@ -24,11 +23,11 @@ build%dev:
 
 build%base:
 	${INFO} 'Building the base image...'
-	@ docker build -t $(ORG_NAME)/$(PROJECT_NAME):base -f $(BASE_IMAGE_FILE) .
+	@ docker build -t $(DOCKER_NAMESPACE)/$(PROJECT_NAME):base -f $(BASE_IMAGE_FILE) .
 
 build%prod:
 	${INFO} 'Building the production image...'
-	@ docker build -t $(ORG_NAME)/$(PROJECT_NAME):prod -f $(RELEASE_IMAGE_FILE) .
+	@ docker build -t $(DOCKER_NAMESPACE)/$(PROJECT_NAME):prod -f $(RELEASE_IMAGE_FILE) .
 
 bundle:
 	${INFO} 'Installing ruby gems...'
