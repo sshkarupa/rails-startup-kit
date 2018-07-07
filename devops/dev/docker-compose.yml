@@ -6,27 +6,34 @@ volumes:
   bundle:
 
 services:
-  db:
-    env_file: .env
-    image: postgres:10-alpine
-    volumes:
-      - database:/var/lib/postgresql/data
-
   web:
     env_file: .env
-    build:
+    build: &build
       context: ../../
       dockerfile: devops/dev/Dockerfile
-    image: budget:dev
-    volumes:
-      - ../../:/usr/src/budget
+    image: pixalar/my_app:dev
+    volumes: &volumes
+      - ../../:/usr/src/may_app
       - bundle:/usr/local/bundle
-    command: bundle exec rails s -b 0.0.0.0
+    command: bin/rails s -b 0.0.0.0
     ports:
       - 3000:3000
-    links:
-      - db:postgres
     depends_on:
       - db
     stdin_open: true
     tty: true
+  db:
+    image: postgres:10-alpine
+    volumes:
+      - database:/var/lib/postgresql/data
+
+  # NOTE: only if you're going to use webpacker gem
+  webpacker:
+    build: *build
+    image: pixalar/my_app:dev
+    volumes: *volumes
+    command: bin/webpack-dev-server
+    ports:
+      - 3035:3035
+    environment:
+      - WEBPACKER_DEV_SERVER_HOST=0.0.0.0

@@ -3,18 +3,21 @@ FROM ruby:2.5.1-alpine3.7
 # install a few dependences
 RUN apk add --update --no-cache \
     build-base \
+    nodejs \
+    yarn \
     tzdata \
     file \
     less \
     coreutils \
-    libxml2-dev \
+    libxslt \
     libxslt-dev \
+    libxml2-dev \
     postgresql-dev
 
 # tell Bundler to build Nokogiri using the system libraries
 RUN bundle config build.nokogiri --use-system-libraries
 
-ENV APP_HOME /usr/src/app
+ENV APP_HOME /usr/src/my_app
 RUN mkdir -p $APP_HOME
 WORKDIR $APP_HOME
 
