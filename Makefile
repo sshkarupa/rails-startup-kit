@@ -1,6 +1,6 @@
 # Project variables
 DOCKER_NAMESPACE ?= sshkarupa
-PROJECT_NAME ?= my_app
+PROJECT_NAME ?= $(shell basename "$PWD")
 
 # Filenames
 DEV_COMPOSE_FILE   := devops/dev/docker-compose.yml
