@@ -4,9 +4,10 @@ ENV RAILS_ENV production
 
 # throw errors if Gemfile has been modified since Gemfile.lock
 RUN bundle config --global frozen 1
+RUN bundle config force_ruby_platform true
 
 # install gems
-COPY gems.rb gems.locked ./
+COPY Gemfile Gemfile.lock ./
 RUN bundle install --jobs=$(nproc) --no-cache --without development test --clean
 
 # Remove build dependences
