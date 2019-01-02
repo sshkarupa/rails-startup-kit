@@ -6,7 +6,7 @@ volumes:
   bundle:
 
 services:
-  web:
+  app:
     env_file: .env
     build: &build
       context: ../../
@@ -23,7 +23,7 @@ services:
     stdin_open: true
     tty: true
   db:
-    image: postgres:10-alpine
+    image: postgres:11-alpine
     volumes:
       - database:/var/lib/postgresql/data
 
