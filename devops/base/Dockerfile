@@ -1,4 +1,4 @@
-FROM ruby:2.6-alpine3.8
+FROM ruby:2.5.3-alpine3.8
 
 # install a few dependences
 RUN apk add --update --no-cache \
@@ -19,7 +19,7 @@ RUN gem install bundler && \
     bundle config build.nokogiri --use-system-libraries && \
     bundle config force_ruby_platform true
 
-ENV APP_HOME /usr/src/my_app
+ENV APP_HOME /usr/src/app
 RUN mkdir -p $APP_HOME
 WORKDIR $APP_HOME
 

@@ -1,4 +1,4 @@
-FROM sshkarupa/my_app:base
+FROM sshkarupa/app:base
 
 ENV RAILS_ENV production
 

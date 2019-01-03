@@ -11,9 +11,9 @@ services:
     build: &build
       context: ../../
       dockerfile: devops/dev/Dockerfile
-    image: sshkarupa/my_app:dev
+    image: sshkarupa/app:dev
     volumes: &volumes
-      - ../../:/usr/src/may_app
+      - ../../:/usr/src/app
       - bundle:/usr/local/bundle
     command: bin/rails s -b 0.0.0.0
     ports:
@@ -30,10 +30,12 @@ services:
   # NOTE: only if you're going to use webpacker gem
   webpacker:
     build: *build
-    image: sshkarupa/my_app:dev
+    image: sshkarupa/app:dev
     volumes: *volumes
     command: bin/webpack-dev-server
     ports:
       - 3035:3035
     environment:
+      - NODE_ENV=development
+      - RAILS_ENV=development
       - WEBPACKER_DEV_SERVER_HOST=0.0.0.0

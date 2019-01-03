@@ -1,10 +1,11 @@
 # Project variables
 DOCKER_NAMESPACE ?= sshkarupa
-PROJECT_NAME ?= $(shell basename "$PWD")
+PROJECT_NAME ?= $(shell basename `pwd`)
 
 # Filenames
 DEV_COMPOSE_FILE   := devops/dev/docker-compose.yml
 REL_COMPOSE_FILE   := devops/prod/docker-compose.yml
+DEV_IMAGE_FILE    := devops/dev/Dockerfile
 BASE_IMAGE_FILE    := devops/base/Dockerfile
 RELEASE_IMAGE_FILE := devops/prod/Dockerfile
 
@@ -19,7 +20,7 @@ build: build-dev
 
 build%dev:
 	${INFO} 'Building the development image...'
-	@ docker-compose -f $(DEV_COMPOSE_FILE) build
+	@ docker build -t $(DOCKER_NAMESPACE)/$(PROJECT_NAME):dev -f $(DEV_IMAGE_FILE) .
 
 build%base:
 	${INFO} 'Building the base image...'
@@ -58,8 +59,11 @@ migrate:
 	${INFO} 'Running rake db:migrate...'
 	@ $(DC) run --rm app bundle exec rake db:migrate
 
-up:
+up: clean
 	@ $(DC) up $(ARGS)
+
+clean:
+	@[ -f tmp/pids/server.pid ] && rm tmp/pids/server.pid || true
 
 down:
 	@ $(DC) down
